@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0;netcoreapp3.1;netstandard2.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <PackageId>Westerhoff.AspNetCore.TemplateRendering</PackageId>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <Description>Razor template renderer built on top of ASP.NET Core.</Description>
+    <PackageTags>Razor;ASP.NET Core</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0" />
+  </ItemGroup>
+</Project>
