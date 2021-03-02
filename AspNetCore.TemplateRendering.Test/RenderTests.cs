@@ -1,10 +1,12 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using VerifyXunit;
 using Westerhoff.AspNetCore.TemplateRendering.Test.Templates;
 using Xunit;
 
 namespace Westerhoff.AspNetCore.TemplateRendering.Test
 {
+    [UsesVerify]
     public class RenderTests
     {
         [Fact]
@@ -15,7 +17,7 @@ namespace Westerhoff.AspNetCore.TemplateRendering.Test
             var rendered = await templateRenderer.RenderAsync("/Templates/Static.cshtml", new object());
 
             Assert.Null(rendered.Title);
-            Assert.Equal("<p>Foo</p>\r\n", rendered.Body);
+            await Verifier.Verify(rendered.Body);
         }
 
         [Fact]
@@ -29,7 +31,7 @@ namespace Westerhoff.AspNetCore.TemplateRendering.Test
             });
 
             Assert.Null(rendered.Title);
-            Assert.Equal("<p>example</p>\r\n", rendered.Body);
+            await Verifier.Verify(rendered.Body);
         }
     }
 }
