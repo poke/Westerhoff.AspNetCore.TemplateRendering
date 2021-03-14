@@ -1,0 +1,22 @@
+@model ExampleModel
+@{
+    ViewData["Title"] = "Simple text example";
+}
+
+<h1>Hello @Model.Name</h1>
+<p>This is a more complex template, utilizing Razor syntax for logic.</p>
+
+@if (Model.IncludeDetails)
+{
+    <p>The passed parameter <em>“@Model.Parameter”</em> contains the following characters:</p>
+    <ul>
+        @foreach (var character in Model.Parameter)
+        {
+            <li>@character (<code>@($"U+{(int)character:x4}")</code>)</li>
+        }
+    </ul>
+}
+else
+{
+    <p>Enable “Include details” to include details about the passed parameter <em>“@Model.Parameter”</em>.</p>
+}

@@ -2,7 +2,13 @@ namespace TemplateRenderSample21.Templates
 {
     public class ExampleModel
     {
-        public string UserId
+        public string Name
+        { get; set; }
+
+        public string Parameter
+        { get; set; }
+
+        public bool IncludeDetails
         { get; set; }
     }
 }

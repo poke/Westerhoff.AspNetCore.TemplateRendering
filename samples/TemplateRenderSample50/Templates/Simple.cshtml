@@ -1,0 +1,8 @@
+@model ExampleModel
+@{
+    ViewData["Title"] = $"Simple example for {Model.Name}";
+}
+
+<h1>Hello @Model.Name</h1>
+<p>This is a simple example template, rendered from Razor within ASP.NET Core.</p>
+<p>The passed model contained the parameter <em>“@Model.Parameter”</em>.</p>

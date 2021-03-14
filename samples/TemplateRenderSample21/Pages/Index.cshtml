@@ -1,11 +1,29 @@
 @page
 @model IndexModel
 @{
-    ViewData["Title"] = "Example template";
+    ViewData["Title"] = "Example template renderer";
 }
 
 <article>
-    <h2>Example.cshtml</h2>
-    <p>Title: <code>@Model.ExampleTemplateTitle</code></p>
-    <pre>@Model.ExampleTemplateBody</pre>
+    <form method="post">
+        <h2>Parameters</h2>
+        <label>
+            Template type:
+            <select asp-for="SelectedTemplate" asp-items="Html.GetEnumSelectList<Templates.ExampleTemplateType>()"></select>
+        </label>
+        <label>Name: <input asp-for="Name" /></label>
+        <label>Parameter: <input asp-for="Parameter" /></label>
+        <label><input asp-for="IncludeDetails" /> Include details</label>
+        <button type="submit">Render template</button>
+    </form>
+</article>
+
+<article>
+    <h2>Rendered template</h2>
+    <p>Title: <code>@Model.RenderedTitle</code></p>
+    <pre>@Model.RenderedBody</pre>
+</article>
+
+<article>
+    @Html.Raw(Model.RenderedBody)
 </article>

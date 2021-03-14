@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TemplateRenderSample31.Templates;
 using Westerhoff.AspNetCore.TemplateRendering;
@@ -9,10 +10,26 @@ namespace TemplateRenderSample31.Pages
     {
         private readonly IRazorTemplateRenderer _razorTemplateRenderer;
 
-        public string ExampleTemplateTitle
+        [BindProperty]
+        public ExampleTemplateType SelectedTemplate
         { get; set; }
 
-        public string ExampleTemplateBody
+        [BindProperty]
+        public string Name
+        { get; set; }
+
+        [BindProperty]
+        public string Parameter
+        { get; set; }
+
+        [BindProperty]
+        public bool IncludeDetails
+        { get; set; }
+
+        public string RenderedTitle
+        { get; set; }
+
+        public string RenderedBody
         { get; set; }
 
         public IndexModel(IRazorTemplateRenderer razorTemplateRenderer)
@@ -20,16 +37,32 @@ namespace TemplateRenderSample31.Pages
             _razorTemplateRenderer = razorTemplateRenderer;
         }
 
-        public async Task OnGet(string userId = null)
+        public async Task OnGet()
+        {
+            Name = "user@example.com";
+            Parameter = "Example";
+            IncludeDetails = false;
+            await RenderTemplate();
+        }
+
+        public async Task OnPost()
+        {
+            await RenderTemplate();
+        }
+
+        private async Task RenderTemplate()
         {
             var model = new ExampleModel
             {
-                UserId = userId ?? "user@example.com",
+                Name = Name,
+                Parameter = Parameter,
+                IncludeDetails = IncludeDetails,
             };
-            var result = await _razorTemplateRenderer.RenderAsync("/Templates/Example.cshtml", model);
+            var templatePath = $"/Templates/{SelectedTemplate}.cshtml";
+            var result = await _razorTemplateRenderer.RenderAsync(templatePath, model);
 
-            ExampleTemplateTitle = result.Title;
-            ExampleTemplateBody = result.Body;
+            RenderedTitle = result.Title;
+            RenderedBody = result.Body;
         }
     }
 }
