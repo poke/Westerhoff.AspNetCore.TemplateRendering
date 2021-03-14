@@ -33,5 +33,25 @@ namespace Westerhoff.AspNetCore.TemplateRendering.Test
             Assert.Null(rendered.Title);
             await Verifier.Verify(rendered.Body);
         }
+
+        [Fact]
+        public async Task Loops()
+        {
+            using var host = Utility.CreateHost();
+            var templateRenderer = host.Services.GetService<IRazorTemplateRenderer>();
+            var rendered = await templateRenderer.RenderAsync("/Templates/Loops.cshtml", new LoopsTemplateModel
+            {
+                Header = "Loops example",
+                Items = new[]
+                {
+                    new LoopsItemModel { Name = "Item 1", Url = "https://example.com/items/1" },
+                    new LoopsItemModel { Name = "Item 2", Url = "https://example.com/items/2" },
+                    new LoopsItemModel { Name = "Item 3", Url = "https://example.com/items/3" },
+                },
+            });
+
+            Assert.Null(rendered.Title);
+            await Verifier.Verify(rendered.Body);
+        }
     }
 }

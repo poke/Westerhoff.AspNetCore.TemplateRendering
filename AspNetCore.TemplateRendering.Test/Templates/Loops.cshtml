@@ -1,0 +1,9 @@
+@model LoopsTemplateModel
+<h1>Example: @Model.Header</h1>
+
+<ul>
+    @foreach(var item in Model.Items)
+    {
+        <li><a href="@item.Url">@item.Name</a></li>
+    }
+</ul>

@@ -1,0 +1,7 @@
+<h1>Example: Loops example</h1>
+
+<ul>
+        <li><a href="https://example.com/items/1">Item 1</a></li>
+        <li><a href="https://example.com/items/2">Item 2</a></li>
+        <li><a href="https://example.com/items/3">Item 3</a></li>
+</ul>
