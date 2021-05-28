@@ -21,6 +21,17 @@ namespace Westerhoff.AspNetCore.TemplateRendering.Test
         }
 
         [Fact]
+        public async Task StaticTitle()
+        {
+            using var host = Utility.CreateHost();
+            var templateRenderer = host.Services.GetService<IRazorTemplateRenderer>();
+            var rendered = await templateRenderer.RenderAsync("/Templates/StaticTitle.cshtml", new object());
+
+            Assert.Equal("Static title", rendered.Title);
+            await Verifier.Verify(rendered.Body);
+        }
+
+        [Fact]
         public async Task Simple()
         {
             using var host = Utility.CreateHost();
@@ -31,6 +42,20 @@ namespace Westerhoff.AspNetCore.TemplateRendering.Test
             });
 
             Assert.Null(rendered.Title);
+            await Verifier.Verify(rendered.Body);
+        }
+
+        [Fact]
+        public async Task SimpleTitle()
+        {
+            using var host = Utility.CreateHost();
+            var templateRenderer = host.Services.GetService<IRazorTemplateRenderer>();
+            var rendered = await templateRenderer.RenderAsync("/Templates/SimpleTitle.cshtml", new SimpleTemplateModel
+            {
+                Value = "example",
+            });
+
+            Assert.Equal("example title", rendered.Title);
             await Verifier.Verify(rendered.Body);
         }
 
@@ -51,6 +76,36 @@ namespace Westerhoff.AspNetCore.TemplateRendering.Test
             });
 
             Assert.Null(rendered.Title);
+            await Verifier.Verify(rendered.Body);
+        }
+
+        [Fact]
+        public async Task Mixed()
+        {
+            using var host = Utility.CreateHost();
+            var templateRenderer = host.Services.GetService<IRazorTemplateRenderer>();
+            var rendered = await templateRenderer.RenderAsync("/Templates/Mixed.cshtml", new MixedTemplateModel
+            {
+                UserName = "user@example.com",
+                ShowDetails = false,
+            });
+
+            Assert.Equal("Title for user@example.com", rendered.Title);
+            await Verifier.Verify(rendered.Body);
+        }
+
+        [Fact]
+        public async Task Mixed_WithDetails()
+        {
+            using var host = Utility.CreateHost();
+            var templateRenderer = host.Services.GetService<IRazorTemplateRenderer>();
+            var rendered = await templateRenderer.RenderAsync("/Templates/Mixed.cshtml", new MixedTemplateModel
+            {
+                UserName = "user@example.com",
+                ShowDetails = true,
+            });
+
+            Assert.Equal("Title for user@example.com", rendered.Title);
             await Verifier.Verify(rendered.Body);
         }
     }

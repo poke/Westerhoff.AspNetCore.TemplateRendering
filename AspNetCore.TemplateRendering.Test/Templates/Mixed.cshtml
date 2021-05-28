@@ -1,0 +1,11 @@
+@model MixedTemplateModel
+@{
+    ViewData["Title"] = $"Title for {Model.UserName}";
+}
+<h1>Hello @Model.UserName</h1>
+<p>Example text.</p>
+
+@if (Model.ShowDetails)
+{
+    <p>Additional details.</p>
+}
